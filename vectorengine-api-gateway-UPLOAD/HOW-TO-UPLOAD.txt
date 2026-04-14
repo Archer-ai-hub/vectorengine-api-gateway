@@ -1,0 +1,12 @@
+﻿How to upload to GitHub (read me)
+==================================
+1. Extract this ZIP on your PC.
+2. Open the extracted folder. You should see: README.md, LICENSE, docs/, examples/, etc.
+3. On GitHub: Add file -> Upload files.
+4. Drag ALL files and folders from the extracted folder into the page (do NOT upload the .zip file itself).
+5. Folder names must stay: docs (contains INTEGRATION.md), examples (contains .env.example).
+
+GitHub does not auto-unzip; extract first, then upload the contents.
+
+---
+解压步骤：先解压，再把解压出的全部内容拖到 GitHub 上传页。
