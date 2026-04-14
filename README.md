@@ -1,17 +1,17 @@
-# vectorengine-api-gateway
-High-speed AI API proxy &amp; gateway service for VectorEngine, enabling stable, low-latency access to global large language models.
 # Vector Engine API Gateway
 
-[![GitHub stars](https://img.shields.io/github/stars/Archer-ai-hub/vectorengine-api-gateway?style=social)](https://github.com/Archer-ai-hub/vectorengine-api-gateway)
-[![Repo](https://img.shields.io/badge/GitHub-Archer--ai--hub%2Fvectorengine--api--gateway-181717?style=flat-square&logo=github)](https://github.com/Archer-ai-hub/vectorengine-api-gateway)
+[![Gitee](https://img.shields.io/badge/Gitee-VectorEngine--API--网关-C71D23?style=flat-square)](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关)
+[![GitHub mirror](https://img.shields.io/badge/GitHub-mirror-181717?style=flat-square&logo=github)](https://github.com/Archer-ai-hub/vectorengine-api-gateway)
 [![Console](https://img.shields.io/badge/Console-api.vectorengine.ai-0284c7?style=flat-square)](https://api.vectorengine.ai/)
 [![Apifox](https://img.shields.io/badge/API%20catalog-Apifox-7c3aed?style=flat-square)](https://vectorengine.apifox.cn/)
 [![English guide](https://img.shields.io/badge/docs-English%20integration-16a34a?style=flat-square)](#documentation--links)
 [![Telegram](https://img.shields.io/badge/Telegram-@ZXCZCI-0088cc?style=flat-square)](https://t.me/ZXCZCI)
 
-**Repository:** [github.com/Archer-ai-hub/vectorengine-api-gateway](https://github.com/Archer-ai-hub/vectorengine-api-gateway) · edit README on GitHub: [README.md (main)](https://github.com/Archer-ai-hub/vectorengine-api-gateway/edit/main/README.md)
+**This repo (Gitee):** [gitee.com/弓箭手-艾-hub/VectorEngine-API-网关](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关) · **Mirror (GitHub):** [Archer-ai-hub/vectorengine-api-gateway](https://github.com/Archer-ai-hub/vectorengine-api-gateway)
 
 > **High-performance AI API access layer for [Vector Engine](https://api.vectorengine.ai/) — OpenAI-compatible calls, unified wallet & keys, and a large multi-vendor model catalog for builders who ship real products.**
+
+**简体中文（摘要）：** 本仓库说明 **Vector Engine（矢量引擎）** 的 API 网关与控制台入口；**正文以英文为主**，便于海外开发者阅读。产品控制台支持多语言切换。
 
 ### What's inside
 
@@ -29,6 +29,42 @@ High-speed AI API proxy &amp; gateway service for VectorEngine, enabling stable,
 
 > [!WARNING]  
 > **Keys are secrets.** Never commit API tokens; use env vars and a backend proxy for public apps.
+
+---
+
+## Quick start (first chat call)
+
+1. [Register / sign in](https://api.vectorengine.ai/) → **Model Square** → pick **model id** + **group** → **API Token** → create a key with that **same group**.  
+2. In [Apifox](https://vectorengine.apifox.cn/), copy the **Server / Base URL** for your environment (often like `https://api.vectorengine.ai/v1` — **verify live**).  
+3. Run (replace placeholders):
+
+```bash
+export VECTOR_ENGINE_BASE_URL="https://api.vectorengine.ai/v1"   # confirm in Apifox
+export VECTOR_ENGINE_API_KEY="sk-..."                            # your console token
+export VECTOR_ENGINE_MODEL="YOUR_SITE_MODEL_ID"                  # from Model Square
+
+curl -sS "${VECTOR_ENGINE_BASE_URL}/chat/completions" \
+  -H "Authorization: Bearer ${VECTOR_ENGINE_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d "{\"model\":\"${VECTOR_ENGINE_MODEL}\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}"
+```
+
+```python
+from openai import OpenAI
+import os
+
+client = OpenAI(
+    api_key=os.environ["VECTOR_ENGINE_API_KEY"],
+    base_url=os.environ["VECTOR_ENGINE_BASE_URL"],
+)
+r = client.chat.completions.create(
+    model=os.environ["VECTOR_ENGINE_MODEL"],
+    messages=[{"role": "user", "content": "Hello"}],
+)
+print(r.choices[0].message.content)
+```
+
+**403 / 401?** Re-check **URL path**, **key group**, and **`model`** string — see [Integration at a glance](#integration-at-a-glance).
 
 ---
 
@@ -54,9 +90,9 @@ Many “API gateway” repos are either:
 
 If this README saved you a debugging afternoon:
 
-- **[Star this repo](https://github.com/Archer-ai-hub/vectorengine-api-gateway)** — helps others discover Vector Engine gateway notes.  
+- **Star** on [Gitee](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关) (or [GitHub mirror](https://github.com/Archer-ai-hub/vectorengine-api-gateway)) — helps others find this doc.  
 - **Share** with your team’s platform / backend channel.  
-- **[Open an issue](https://github.com/Archer-ai-hub/vectorengine-api-gateway/issues)** if an entry point, mirror host, or doc link drifts — we’ll align the table.
+- **Issues:** [Gitee Issues](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关/issues) · [GitHub Issues (mirror)](https://github.com/Archer-ai-hub/vectorengine-api-gateway/issues) for doc/link fixes.
 
 ---
 
@@ -70,6 +106,7 @@ If this README saved you a debugging afternoon:
 
 ## Table of contents
 
+- [Quick start (first chat call)](#quick-start-first-chat-call)
 - [Quick reference](#quick-reference)
 - [What is Vector Engine API Gateway?](#what-is-vector-engine-api-gateway)
 - [API entry points](#api-entry-points)
@@ -77,6 +114,7 @@ If this README saved you a debugging afternoon:
 - [Console highlights](#console-highlights)
 - [Integration at a glance](#integration-at-a-glance)
 - [Documentation & links](#documentation--links)
+- [Contact (primary & backup)](#contact-primary--backup)
 - [Operator & legal](#operator--legal)
 - [Contributing](#contributing)
 - [License](#license)
@@ -92,7 +130,7 @@ If this README saved you a debugging afternoon:
 | **Create API key** | Console → **API Token** / **API Keys** → assign **group** to match Model Square |
 | **HTTP schemas & try-it** | [vectorengine.apifox.cn](https://vectorengine.apifox.cn/) |
 | **Top up** | Console → **Personal Center → Wallet** (USDT / Alipay / WeChat / codes) |
-| **Human support** | Telegram [@ZXCZCI](https://t.me/ZXCZCI) |
+| **Human support** | **Primary:** Telegram [@ZXCZCI](https://t.me/ZXCZCI) · **Backup:** [yeallen441@gmail.com](mailto:yeallen441@gmail.com?subject=Vector%20Engine%20API%20support) |
 
 ---
 
@@ -152,13 +190,29 @@ If you see **401 / 403 / model not allowed**, re-check **URL path**, **key’s g
 
 | Resource | Link |
 |----------|------|
-| **This GitHub repo** | [github.com/Archer-ai-hub/vectorengine-api-gateway](https://github.com/Archer-ai-hub/vectorengine-api-gateway) |
+| **This repo (Gitee)** | [gitee.com/弓箭手-艾-hub/VectorEngine-API-网关](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关) |
+| **Mirror (GitHub)** | [github.com/Archer-ai-hub/vectorengine-api-gateway](https://github.com/Archer-ai-hub/vectorengine-api-gateway) |
+| **Integration guide (Markdown)** | [docs/INTEGRATION.md](docs/INTEGRATION.md) |
+| **Env template (no secrets)** | [examples/.env.example](examples/.env.example) |
 | Web console | [https://api.vectorengine.ai/](https://api.vectorengine.ai/) |
 | Apifox (API catalog) | [https://vectorengine.apifox.cn/](https://vectorengine.apifox.cn/) |
 | Register (affiliate promo; bonus credits when rules apply) | [https://api.vectorengine.ai/register?aff=prKT](https://api.vectorengine.ai/register?aff=prKT) |
-| Telegram (onboarding / billing) | [https://t.me/ZXCZCI](https://t.me/ZXCZCI) |
+| Telegram (primary) | [https://t.me/ZXCZCI](https://t.me/ZXCZCI) |
+| Email (backup) | [yeallen441@gmail.com](mailto:yeallen441@gmail.com?subject=Vector%20Engine%20API%20support) |
+| Gitee Issues (docs / links) | [Issues](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关/issues) |
+| GitHub Issues (mirror) | [Issues](https://github.com/Archer-ai-hub/vectorengine-api-gateway/issues) |
 
-Add a **long-form English integration** doc (HTML/Markdown) in this repo or enable **GitHub Pages**, then link it here for a single-scroll onboarding page.
+**Optional:** enable **Gitee Pages** or **GitHub Pages** on `main` → `/docs` to render Markdown in browser, or add your long-form English HTML under `docs/` and link it here.
+
+---
+
+## Contact (primary & backup)
+
+| Priority | Channel | Use for |
+|----------|---------|---------|
+| **1** | Telegram [@ZXCZCI](https://t.me/ZXCZCI) | Fastest: onboarding, billing, USDT, `aff=prKT`, which group to pick. |
+| **2** | [yeallen441@gmail.com](mailto:yeallen441@gmail.com?subject=Vector%20Engine%20API%20support) | Same as above if you cannot use Telegram; **do not** send `sk-` API keys. |
+| **3** | [Gitee Issues](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关/issues) · [GitHub (mirror)](https://github.com/Archer-ai-hub/vectorengine-api-gateway/issues) | README / doc typos, broken links — not for account-specific support. |
 
 ---
 
@@ -182,7 +236,25 @@ PRs welcome for:
 
 ## License
 
-Specify your license in this repository’s `LICENSE` file (e.g. MIT). Until then, **code** defaults to “all rights reserved” unless you state otherwise.
+This repository’s **documentation and examples** are licensed under the [MIT License](LICENSE).  
+The **Vector Engine hosted service** and third-party models remain under their own terms — see the license file scope note.
+
+---
+
+## Maintainer checklist (Gitee / GitHub settings)
+
+Things README alone cannot fix — worth doing on [Gitee](https://gitee.com/弓箭手-艾-hub/VectorEngine-API-网关) and/or [GitHub mirror](https://github.com/Archer-ai-hub/vectorengine-api-gateway):
+
+| Item | Why |
+|------|-----|
+| **About → Description** | Keep one crisp English line (already good) — matches global search. |
+| **About → Website** | Set to `https://api.vectorengine.ai` so the sidebar links to the product. |
+| **Topics / tags** | e.g. `openai-api`, `llm`, `api-gateway`, `vector-engine`, `multimodal`, `ai` — improves discovery. |
+| **README 结构** | **只保留一个一级标题 `#`**；不要同时存在 `# vectorengine-api-gateway` 与 `# Vector Engine API Gateway` 两个并列大标题。 |
+| **不要嵌套整包文件夹** | 不要把 ZIP 解压后的内容再套一层 `vectorengine-api-gateway-UPLOAD/` 上传 — 应把 `docs/`、`examples/` 等放在**仓库根目录**。 |
+| **`LICENSE`** | ✅ Added [`LICENSE`](LICENSE) (MIT + hosted-service scope note). Change if legal prefers proprietary docs only. |
+| **Releases or tags** | Publish **`v0.1.0`** — step-by-step: [`RELEASING.md`](RELEASING.md) · history: [`CHANGELOG.md`](CHANGELOG.md). |
+| **SECURITY.md** | ✅ [`SECURITY.md`](SECURITY.md) — includes **mailto:yeallen441@gmail.com** for disclosures. |
 
 ---
 
